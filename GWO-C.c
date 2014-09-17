@@ -4,12 +4,9 @@
 #include <math.h>
 #include <time.h>
 #include "RngStream.h"
-#include "F6.h"
  
 #define SEARCH_AGENTS 30
 #define dim 30
-#define lb -100
-#define ub 100
 #define sInf 3425666547544
 #define MI 500
 #define PI 3.1415926535897932384
@@ -23,7 +20,7 @@ typedef struct {
 Wolf wolf_pack[SEARCH_AGENTS], alpha, beta, delta;
 
 
-void verLU(int index){
+void verLU(int index, int lb, int ub){
     int i = 0;
 
     for (i = 0; i < dim; ++i){
@@ -43,7 +40,7 @@ void showPack(){
     printf("Fitness de alpha:\t %.60f\n", alpha.fitness);
 }
 
-void initializeAgents(RngStream g1){
+void initializeAgents(RngStream g1, int lb, int ub){
     alpha.fitness=sInf;
     beta.fitness=sInf;
     delta.fitness=sInf;
@@ -125,21 +122,20 @@ double function20(int i){
     return exp(-sum);
 } */
 
-double GWO(double (*fObj)(int j2, int dim2, double pos2[])){
+void GWO(int lb, int ub, double (*fObj)(int j2, int dim2, double pos2[]) ){
 
     unsigned long germe[6] = { rand(), rand(), rand(), rand(), rand(), rand() };
     RngStream_SetPackageSeed (germe);
     RngStream g1 = RngStream_CreateStream ("Laplace");
 
-    initializeAgents(g1);
+    initializeAgents(g1, lb, ub);
 
     int l=0;
     while(l<MI){
         int i = 0;
         for(i=0; i<SEARCH_AGENTS;i++){
-            double sumF = 0;
 
-            verLU(i);
+            verLU(i, lb, ub);
 
             wolf_pack[i].fitness = fObj(i, dim, wolf_pack[i].pos);
 
@@ -201,19 +197,3 @@ double GWO(double (*fObj)(int j2, int dim2, double pos2[])){
     }
     RngStream_DeleteStream (&g1); 
 }
- 
-/*int main (int argc, char const *argv[]){
-
-    srand(time(0));
-    unsigned long germe[6] = { rand(), rand(), rand(), rand(), rand(), rand() };
-    RngStream_SetPackageSeed (germe);
-    g1 = RngStream_CreateStream ("Laplace");
-
-    double (*fObj)(int, int, double[]);
-    fObj=function6;
-    GWO(fObj);
-    showPack();
-
-    RngStream_DeleteStream (&g1); 
-    return 0;
-}*/

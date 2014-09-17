@@ -1,20 +1,16 @@
+all: main
 
-all: GWOC
+main: GWO-C.o RngStream.o F6.o
+	gcc RngStream.o GWO-C.o F6.o -o main -lm -Wall
 
 F6.o: F6.c
-	gcc -c F6.c 
+	gcc -c F6.c -lm
 
-RngStream.o: RngStream.c
-	gcc -c RngStream.c
+RngStream.o: RngStream.c RngStream.h 
+	gcc -c RngStream.c -lm
 
-GWO-C.o: GWO-C.c
-	gcc -c GWO-C.c
-
-main.o: main.c
-	gcc -c main.c 
-
-GWOC: main.o GWO-C.o RngStream.o F6.o
-	gcc main.o GWO-C.o RngStream.o F6.o -o GWOC
+GWO-C.o: GWO-C.c GWO-C.h
+	gcc -c GWO-C.c -lm
 
 clean:
-	rm -rf *o GWOC
+	rm -rf *o main
