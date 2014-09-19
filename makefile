@@ -1,7 +1,7 @@
-all: main
+all: exec
 
-main: GWO-C.o RngStream.o F6.o
-	gcc RngStream.o GWO-C.o F6.o -o main -lm -Wall
+exec: GWO-C.o RngStream.o F6.o
+	gcc RngStream.o GWO-C.o F6.o -o exec -lm -Wall
 
 F6.o: F6.c
 	gcc -c F6.c -lm
@@ -13,4 +13,4 @@ GWO-C.o: GWO-C.c GWO-C.h
 	gcc -c GWO-C.c -lm
 
 clean:
-	rm -rf *o main
+	rm -rf *o exec
