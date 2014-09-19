@@ -1,10 +1,10 @@
 all: exec
 
-exec: GWO-C.o RngStream.o F6.o
-	gcc RngStream.o GWO-C.o F6.o -o exec -lm -Wall
+exec: GWO-C.o RngStream.o functions.o
+	gcc RngStream.o GWO-C.o functions.o -o exec -lm -Wall
 
-F6.o: F6.c
-	gcc -c F6.c -lm
+functions.o: functions.c
+	gcc -c functions.c -lm
 
 RngStream.o: RngStream.c RngStream.h 
 	gcc -c RngStream.c -lm
