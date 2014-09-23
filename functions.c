@@ -68,12 +68,12 @@ int main(int argc, char const *argv[]){
 
     printf("Funcion 7\n");
     fObj=function7;
-    GWO(lb, ub, fObj, g1);
+    GWO(-1.28, 1.28, fObj, g1);
     showPack();
 
     printf("Funcion 8\n");
     fObj = function8;
-    GWO(lb, ub, fObj, g1);
+    GWO(-500, 500, fObj, g1);
     showPack();
 
     RngStream_DeleteStream (&g1); 
